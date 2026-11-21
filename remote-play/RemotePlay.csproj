@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <Version>0.12.3</Version>
+    <AssemblyName>RemotePlayCino</AssemblyName>
+    <RootNamespace>RemotePlay</RootNamespace>
+    <Product>RemotePlayCino</Product>
+    <Title>RemotePlayCino</Title>
+    <AssemblyTitle>RemotePlayCino</AssemblyTitle>
+    <Description>Comparte juegos, pantalla y mandos con baja latencia.</Description>
+    <ApplicationIcon>Assets/GamepadCino.ico</ApplicationIcon>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <DebugType>embedded</DebugType>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <WarningsAsErrors>$(WarningsAsErrors);NU1903;NU1904</WarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Nefarius.ViGEm.Client" Version="1.21.256" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.36.0.15337" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets/GamepadCino.png" LogicalName="RemotePlay.Assets.GamepadCino.png" />
+    <EmbeddedResource Include="Assets/GamepadCino.ico" LogicalName="RemotePlay.Assets.GamepadCino.ico" />
+    <Content Include="../build/native/sdl3-3.4.20/SDL3.dll" Link="SDL3.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <Content Include="../build/native/sdl3-3.4.20/SDL3-LICENSE.txt" Link="SDL3-LICENSE.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <Content Include="Wired-Pro2-LICENSE.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(PortablePayloadPath)' != ''">
+    <EmbeddedResource Include="$(PortablePayloadPath)" LogicalName="RemotePlay.Portable.Dependencies.zip" />
+  </ItemGroup>
+  <!-- System.Net.Quic loads this DLL by its full path beside the executable. -->
+  <Target Name="PublishMsQuicBesideExecutable" AfterTargets="Publish"
+          Condition="'$(PublishSingleFile)' == 'true' and '$(SelfContained)' == 'true'">
+    <Copy SourceFiles="$(TargetDir)msquic.dll" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

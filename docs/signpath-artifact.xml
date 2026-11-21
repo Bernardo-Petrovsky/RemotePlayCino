@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1">
+  <parameters>
+    <parameter name="version" required="true" />
+    <parameter name="file-version" required="true" />
+  </parameters>
+  <zip-file>
+    <pe-file path="RemotePlayCino.exe" product-name="RemotePlayCino" product-version="${version}" file-version="${file-version}" original-filename="RemotePlayCino.dll">
+      <authenticode-sign />
+    </pe-file>
+  </zip-file>
+</artifact-configuration>
